@@ -1,0 +1,16 @@
+<small *ngIf="!isValid">Invalid Credentials</small>
+<small *ngIf="isValid">Valid Credentials</small>
+
+<form [formGroup]="fg">
+  User Name:
+  <input type="text" name="username" formControlName="username" />
+  Password:
+  <input type="password" name="password" formControlName="password" />
+
+  <button (click)="handleLogin()">Login</button>
+</form>
+
+<!-- <input type="text" name="username" [(ngModel)]="username" /> Password:
+<input type="password" name="password" [(ngModel)]="password" />
+
+<button (click)="handleLogin()">Login</button> -->
