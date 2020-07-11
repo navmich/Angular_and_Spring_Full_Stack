@@ -1,14 +1,17 @@
-<small *ngIf="!isValid">Invalid Credentials</small>
-<small *ngIf="isValid">Valid Credentials</small>
+<h1>Please Log In:</h1>
 
-<form [formGroup]="fg">
-  User Name:
-  <input type="text" name="username" formControlName="username" />
-  Password:
-  <input type="password" name="password" formControlName="password" />
+<div class="container">
+  <div class="alert alert-warning" *ngIf="!isValid">Invalid Credentials</div>
 
-  <button (click)="handleLogin()">Login</button>
-</form>
+  <form [formGroup]="fg">
+    User Name:
+    <input type="text" name="username" formControlName="username" />
+    Password:
+    <input type="password" name="password" formControlName="password" />
+
+    <button class="btn btn-success" (click)="handleLogin()">Login</button>
+  </form>
+</div>
 
 <!-- <input type="text" name="username" [(ngModel)]="username" /> Password:
 <input type="password" name="password" [(ngModel)]="password" />
