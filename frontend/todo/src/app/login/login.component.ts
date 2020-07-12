@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HardcodedAuthenticationService } from '../service/hardcoded-authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,11 @@ export class LoginComponent implements OnInit {
   fg: FormGroup;
   isValid: boolean;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private hardcodedAuthService: HardcodedAuthenticationService
+  ) {
     this.fg = this.fb.group({
       username: [''],
       password: [''],
@@ -25,14 +30,15 @@ export class LoginComponent implements OnInit {
   handleLogin() {
     // console.log(this.username);
     if (
-      this.fg.get('username').value === 'Mike' &&
-      this.fg.get('password').value === 'p'
+      this.hardcodedAuthService.authenticate(
+        this.fg.get('username').value,
+        this.fg.get('password').value
+      )
     ) {
       this.isValid = true;
       this.router.navigate(['welcome', this.fg.get('username').value]);
     } else {
       this.isValid = false;
     }
-    console.log(this.fg.controls.username.value);
   }
 }
