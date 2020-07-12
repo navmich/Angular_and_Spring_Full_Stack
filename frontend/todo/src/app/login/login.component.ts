@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   handleLogin() {
-    // console.log(this.username);
     if (
       this.hardcodedAuthService.authenticate(
         this.fg.get('username').value,
