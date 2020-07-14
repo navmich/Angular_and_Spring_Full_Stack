@@ -8,3 +8,15 @@
     <a routerLink="/todos">here</a>.
   </div>
 </div>
+
+<div class="container">
+  Click here to get a customize Welcome
+  <button class="btn btn-success" (click)="getWelcomeMessage()">
+    Get Welcome Message
+  </button>
+</div>
+
+<div class="container" *ngIf="welcomeMessageFromService">
+  <h2>Your Customized Welcome Message</h2>
+  {{ welcomeMessageFromService }}
+</div>
