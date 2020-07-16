@@ -12,13 +12,17 @@ export class HelloWorldBean {
 export class WelcomeDataService {
   constructor(private http: HttpClient) {}
 
-  // executeHelloWorlBeanService(): Observable<HelloWorldBean> {
-  //   return this.http.get<HelloWorldBean>(
-  //     'http://localhost:8080//hello-world-bean'
-  //   );
-  // }
+  executeHelloWorlBeanService(): Observable<HelloWorldBean> {
+    return this.http.get<HelloWorldBean>(
+      'http://localhost:8080//hello-world-bean'
+    );
+  }
 
-  executeHelloWorlBeanService(): Observable<any> {
-    return this.http.get('http://localhost:8080//hello-world-bean');
+  executeHelloWorldBeanWithPathVariable(
+    name: string
+  ): Observable<HelloWorldBean> {
+    return this.http.get<HelloWorldBean>(
+      `http://localhost:8080//hello-world/path-variable/${name}`
+    );
   }
 }

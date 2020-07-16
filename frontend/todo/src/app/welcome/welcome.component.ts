@@ -14,7 +14,7 @@ import { Observable, Subscription } from 'rxjs';
 export class WelcomeComponent implements OnInit {
   name: string;
   welcomeMessageFromService: string;
-  test: string;
+  welcomeErrorMessageFromService: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,12 +26,24 @@ export class WelcomeComponent implements OnInit {
   }
 
   getWelcomeMessage() {
-    this.service
-      .executeHelloWorlBeanService()
-      .subscribe((response) => this.handleSuccesfulResponse(response));
+    this.service.executeHelloWorlBeanService().subscribe(
+      (response) => this.handleSuccesfulResponse(response),
+      (error) => this.handleErrorResponse(error)
+    );
+  }
+
+  getWelcomeMessageWithName() {
+    this.service.executeHelloWorldBeanWithPathVariable(this.name).subscribe(
+      (response) => this.handleSuccesfulResponse(response),
+      (error) => this.handleErrorResponse(error)
+    );
   }
 
   handleSuccesfulResponse(response: HelloWorldBean) {
     this.welcomeMessageFromService = response.message;
+  }
+
+  handleErrorResponse(error: any) {
+    this.welcomeErrorMessageFromService = error.error.message;
   }
 }

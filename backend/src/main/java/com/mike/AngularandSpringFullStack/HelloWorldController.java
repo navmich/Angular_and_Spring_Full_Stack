@@ -16,6 +16,7 @@ public class HelloWorldController {
 	
 	@GetMapping("/hello-world-bean")
 	public HelloWorldBean helloWorldBean() {
+//		throw new RuntimeException("Something happened.. Call support");
 		return new HelloWorldBean("Hello World");
 	}
 
