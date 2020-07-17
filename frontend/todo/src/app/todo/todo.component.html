@@ -1,5 +1,12 @@
-<form [formGroup]="fg">
-  <div class="container">
+<div class="container">
+  <div class="alert alert-warning" *ngIf="todoForm.dirty && todoForm.invalid">
+    Enter valid values
+  </div>
+  <form
+    [formGroup]="fg"
+    (ngSubmit)="!todoForm.invalid && saveTodo()"
+    #todoForm="ngForm"
+  >
     <fieldset class="form-group">
       <label>Description</label>
       <input
@@ -21,6 +28,10 @@
       />
     </fieldset>
 
-    <button class="btn btn-success" (click)="saveTodo()">Save</button>
-  </div>
-</form>
+    <button class="btn btn-success" type="submit">
+      Save
+    </button>
+  </form>
+</div>
+<!-- (ngSubmit)="!todoForm.invalid && saveTodo()"
+    #todoForm="ngForm" -->
