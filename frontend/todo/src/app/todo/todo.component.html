@@ -1,0 +1,26 @@
+<form [formGroup]="fg">
+  <div class="container">
+    <fieldset class="form-group">
+      <label>Description</label>
+      <input
+        class="form-control"
+        type="text"
+        name="description"
+        required="required"
+        formControlName="description"
+      />
+    </fieldset>
+    <fieldset class="form-group">
+      <label>Target Date</label>
+      <input
+        class="form-control"
+        type="date"
+        name="targetDate"
+        required="required"
+        formControlName="targetDate"
+      />
+    </fieldset>
+
+    <button class="btn btn-success" (click)="saveTodo()">Save</button>
+  </div>
+</form>

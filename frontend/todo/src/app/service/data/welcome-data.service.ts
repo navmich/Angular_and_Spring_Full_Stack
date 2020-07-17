@@ -14,7 +14,7 @@ export class WelcomeDataService {
 
   executeHelloWorlBeanService(): Observable<HelloWorldBean> {
     return this.http.get<HelloWorldBean>(
-      'http://localhost:8080//hello-world-bean'
+      'http://localhost:8080/hello-world-bean'
     );
   }
 
@@ -22,7 +22,7 @@ export class WelcomeDataService {
     name: string
   ): Observable<HelloWorldBean> {
     return this.http.get<HelloWorldBean>(
-      `http://localhost:8080//hello-world/path-variable/${name}`
+      `http://localhost:8080/hello-world/path-variable/${name}`
     );
   }
 }

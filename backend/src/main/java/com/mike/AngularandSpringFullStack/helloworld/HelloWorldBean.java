@@ -1,4 +1,4 @@
-package com.mike.AngularandSpringFullStack;
+package com.mike.AngularandSpringFullStack.helloworld;
 
 public class HelloWorldBean {
 	
