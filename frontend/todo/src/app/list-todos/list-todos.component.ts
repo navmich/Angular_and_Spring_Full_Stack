@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoDataService } from '../service/data/todo-data.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { FormArray, FormBuilder } from '@angular/forms';
 
 export class Todo {
   constructor(
@@ -17,26 +19,55 @@ export class Todo {
   styleUrls: ['./list-todos.component.css'],
 })
 export class ListTodosComponent implements OnInit {
-  todos: Todo[];
+  // todos: Todo[];
+  todos: FormArray = new FormArray([]);
   name: string;
-  message: string;
+  messageDeleted: string;
+  messageAllDone: string;
 
-  constructor(private todoService: TodoDataService, private router: Router) {}
+  displayedColumns: string[] = [
+    'description',
+    'targetDate',
+    'isCompleted',
+    'update',
+    'delete',
+  ];
+
+  constructor(
+    private todoService: TodoDataService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
+    this.todos = this.fb.array([]);
     this.name = sessionStorage.getItem('authenticatedUser');
     this.refreshTodos();
   }
 
   refreshTodos() {
     this.todoService.retrieveAllTodos(this.name).subscribe((response) => {
-      this.todos = response;
+      if (!response.length) {
+        this.messageAllDone = 'You have just finished all Your tasks...';
+        setTimeout(() => {
+          this.messageAllDone = '';
+        }, 5000);
+      }
+      // TODO jde odstranit vyprazdneni todos ??? treba patchValue ?
+      this.todos = this.fb.array([]);
+      for (let todo of response) {
+        this.todos.push(this.fb.control(todo));
+      }
+      // this.todos = response;
     });
   }
 
   deleteTodo(id: number) {
-    this.todoService.deleteTodoById(this.name, id).subscribe((response) => {
-      this.message = `Delete of Todo ${id} Was Successful!`;
+    this.todoService.deleteTodoById(this.name, id).subscribe(() => {
+      this.messageDeleted = `Delete of Todo ${id} Was Successful!`;
+      setTimeout(() => {
+        this.messageDeleted = '';
+      }, 2000);
       this.refreshTodos();
     });
   }

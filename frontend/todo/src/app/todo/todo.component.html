@@ -1,12 +1,7 @@
 <div class="container">
-  <div class="alert alert-warning" *ngIf="todoForm.dirty && todoForm.invalid">
-    Enter valid values
-  </div>
-  <form
-    [formGroup]="fg"
-    (ngSubmit)="!todoForm.invalid && saveTodo()"
-    #todoForm="ngForm"
-  >
+  <ng-container *ngTemplateOutlet="warningMessages"></ng-container>
+
+  <form [formGroup]="fg" (ngSubmit)="onSubmit()">
     <fieldset class="form-group">
       <label>Description</label>
       <input
@@ -31,7 +26,14 @@
     <button class="btn btn-success" type="submit">
       Save
     </button>
+    <button class="btn btn-default" (click)="onCancel()">
+      Cancel
+    </button>
   </form>
 </div>
-<!-- (ngSubmit)="!todoForm.invalid && saveTodo()"
-    #todoForm="ngForm" -->
+
+<ng-template #warningMessages>
+  <div class="alert alert-warning" *ngIf="showMessage">
+    {{ pickUpWarningMessage() }}
+  </div>
+</ng-template>

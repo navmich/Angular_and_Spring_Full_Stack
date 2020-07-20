@@ -1,37 +1,74 @@
 <h1>My Todo's</h1>
 
-<div class="alert alert-success" *ngIf="message">{{ message }}</div>
-
-<div class="container">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th>Target Date</th>
-        <th>is Completed</th>
-        <th>Update</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let todo of todos">
-        <td>{{ todo.description }}</td>
-        <td>{{ todo.targetDate | date }}</td>
-        <td>{{ todo.done }}</td>
-        <td>
-          <button class="btn btn-success" (click)="updateTodo(todo.id)">
-            Update
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-warning" (click)="deleteTodo(todo.id)">
-            Delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="row">
-    <button class="btn btn-success" (click)="addTodo()">Add</button>
-  </div>
+<div class="alert alert-success" *ngIf="messageDeleted">
+  {{ messageDeleted }}
 </div>
+<div class="alert alert-success" *ngIf="messageAllDone">
+  {{ messageAllDone }}
+</div>
+
+<!-- <table mat-table [dataSource]="todos">
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef>Description</th>
+    <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="targetDate">
+    <th mat-header-cell *matHeaderCellDef>Target Date</th>
+    <td mat-cell *matCellDef="let element">{{ element.targetDate }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="isCompleted">
+    <th mat-header-cell *matHeaderCellDef>is Completed</th>
+    <td mat-cell *matCellDef="let element">{{ element.isCompleted }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="update">
+    <th mat-header-cell *matHeaderCellDef>Update</th>
+    <td mat-cell *matCellDef="let element">{{ element.update }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef>delete</th>
+    <td mat-cell *matCellDef="let element">{{ element.delete }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table> -->
+
+<form [formGroup]="todos">
+  <div class="container">
+    <table class="table" *ngIf="todos.length">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Target Date</th>
+          <th>is Completed</th>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let todo of todos.value">
+          <td>{{ todo.description }}</td>
+          <td>{{ todo.targetDate | date }}</td>
+          <td>{{ todo.done }}</td>
+          <td>
+            <button class="btn btn-success" (click)="updateTodo(todo.id)">
+              Update
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-warning" (click)="deleteTodo(todo.id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <button class="btn btn-success" (click)="addTodo()">Add</button>
+    </div>
+  </div>
+</form>

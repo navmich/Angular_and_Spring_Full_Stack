@@ -1,4 +1,4 @@
-import { Component, OnInit, LOCALE_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TodoDataService } from '../service/data/todo-data.service';
@@ -11,10 +11,16 @@ import { Todo } from '../list-todos/list-todos.component';
   styleUrls: ['./todo.component.css'],
 })
 export class TodoComponent implements OnInit {
+  // TODO todo.component v dialogu ???
   id: number;
   username: string;
   todo: Todo;
   fg: FormGroup;
+  showMessage: Boolean;
+
+  // TODO dodelat do Transloco
+  warningMessage_invalidDescription = 'Enter description';
+  warningMessage_invalidTargetDate = 'Enter valid date';
 
   constructor(
     private route: ActivatedRoute,
@@ -32,6 +38,12 @@ export class TodoComponent implements OnInit {
       done: [''],
     });
 
+    this.fg.valueChanges.subscribe((data) => {
+      data.description && data.targetDate
+        ? (this.showMessage = false)
+        : (this.showMessage = true);
+    });
+
     this.id = this.route.snapshot.params['id'];
     this.todo = new Todo(this.id, '', false, new Date());
     this.username = sessionStorage.getItem('authenticatedUser');
@@ -45,13 +57,21 @@ export class TodoComponent implements OnInit {
       .retrieveTodoById(this.username, this.id)
       .subscribe((response) => {
         this.todo = response;
-        this.setFormGroup(this.todo);
+        this._setFormGroup(this.todo);
       });
+  }
+
+  onSubmit() {
+    if (!this.isFormInvalid()) {
+      this.saveTodo();
+    } else {
+      this.showMessage = true;
+    }
   }
 
   saveTodo() {
     if (this.id == -1) {
-      this.setTodo();
+      this._setTodo();
       this.todoDataService
         .createTodo(this.username, this.todo)
         .subscribe((response) => {
@@ -63,13 +83,32 @@ export class TodoComponent implements OnInit {
         .updateTodoById(this.username, this.id, this.fg.value)
         .subscribe((response) => {
           this.todo = response;
-          this.setFormGroup(this.todo);
+          this._setFormGroup(this.todo);
         });
       this.router.navigate(['/todos']);
     }
   }
 
-  private setFormGroup(todo: Todo) {
+  onCancel() {
+    this.router.navigate(['/todos']);
+  }
+
+  isFormInvalid() {
+    // return this.fg.touched && this.fg.invalid;
+    return this.fg.invalid;
+  }
+
+  pickUpWarningMessage() {
+    if (this.fg.controls.description.invalid) {
+      return this.warningMessage_invalidDescription;
+    } else if (this.fg.controls.targetDate.invalid) {
+      return this.warningMessage_invalidTargetDate;
+    } else {
+      return null;
+    }
+  }
+
+  private _setFormGroup(todo: Todo) {
     this.fg.get('id').setValue(todo.id);
     this.fg.get('username').setValue(this.username);
     this.fg.get('description').setValue(todo.description);
@@ -79,11 +118,9 @@ export class TodoComponent implements OnInit {
     this.fg.get('done').setValue(todo.done);
   }
 
-  private setTodo() {
+  private _setTodo() {
     this.todo.description = this.fg.get('description').value;
     this.todo.targetDate = this.fg.get('targetDate').value;
     this.todo.done = false;
   }
-  // TODO submit form programaticly
-  // TODO validacni hlasky dodelat
 }
