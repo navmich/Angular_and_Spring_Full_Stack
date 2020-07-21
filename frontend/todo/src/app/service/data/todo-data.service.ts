@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Todo } from 'src/app/list-todos/list-todos.component';
 
@@ -6,7 +6,7 @@ import { Todo } from 'src/app/list-todos/list-todos.component';
   providedIn: 'root',
 })
 export class TodoDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, injector: Injector) {}
 
   retrieveAllTodos(username: String) {
     return this.http.get<Todo[]>(

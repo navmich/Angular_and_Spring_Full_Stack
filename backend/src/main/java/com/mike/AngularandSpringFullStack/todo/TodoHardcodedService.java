@@ -38,7 +38,7 @@ public class TodoHardcodedService {
         if (todo == null) return null;
         if (todos.remove(todo)) {
             return todo;
-        };
+        }
         return null;
     }
 

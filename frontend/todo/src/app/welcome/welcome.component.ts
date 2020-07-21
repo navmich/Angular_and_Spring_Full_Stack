@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   WelcomeDataService,
@@ -13,30 +13,32 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class WelcomeComponent implements OnInit {
   name: string;
+  welcomeDataService: WelcomeDataService;
   welcomeMessageFromService: string;
   welcomeErrorMessageFromService: string;
 
-  constructor(
-    private route: ActivatedRoute,
-    private service: WelcomeDataService
-  ) {}
+  constructor(private route: ActivatedRoute, injector: Injector) {
+    this.welcomeDataService = injector.get(WelcomeDataService);
+  }
 
   ngOnInit() {
     this.name = this.route.snapshot.params['name'];
   }
 
   getWelcomeMessage() {
-    this.service.executeHelloWorlBeanService().subscribe(
+    this.welcomeDataService.executeHelloWorlBeanService().subscribe(
       (response) => this.handleSuccesfulResponse(response),
       (error) => this.handleErrorResponse(error)
     );
   }
 
   getWelcomeMessageWithName() {
-    this.service.executeHelloWorldBeanWithPathVariable(this.name).subscribe(
-      (response) => this.handleSuccesfulResponse(response),
-      (error) => this.handleErrorResponse(error)
-    );
+    this.welcomeDataService
+      .executeHelloWorldBeanWithPathVariable(this.name)
+      .subscribe(
+        (response) => this.handleSuccesfulResponse(response),
+        (error) => this.handleErrorResponse(error)
+      );
   }
 
   handleSuccesfulResponse(response: HelloWorldBean) {

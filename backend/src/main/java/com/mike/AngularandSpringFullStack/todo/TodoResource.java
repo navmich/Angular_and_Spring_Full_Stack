@@ -9,8 +9,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
-import static org.springframework.http.ResponseEntity.created;
-
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 public class TodoResource {

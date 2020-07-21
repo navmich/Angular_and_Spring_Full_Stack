@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { TodoDataService } from '../service/data/todo-data.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -22,6 +22,7 @@ export class ListTodosComponent implements OnInit {
   // todos: Todo[];
   todos: FormArray = new FormArray([]);
   name: string;
+  todoService: TodoDataService;
   messageDeleted: string;
   messageAllDone: string;
 
@@ -34,10 +35,12 @@ export class ListTodosComponent implements OnInit {
   ];
 
   constructor(
-    private todoService: TodoDataService,
     private router: Router,
-    private fb: FormBuilder
-  ) {}
+    private fb: FormBuilder,
+    injector: Injector
+  ) {
+    this.todoService = injector.get(TodoDataService);
+  }
 
   ngOnInit() {
     this.todos = this.fb.array([]);

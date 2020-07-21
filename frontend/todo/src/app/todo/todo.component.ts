@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TodoDataService } from '../service/data/todo-data.service';
-import { formatDate, DatePipe } from '@angular/common';
+import { formatDate } from '@angular/common';
 import { Todo } from '../list-todos/list-todos.component';
 
 @Component({
@@ -11,6 +11,7 @@ import { Todo } from '../list-todos/list-todos.component';
   styleUrls: ['./todo.component.css'],
 })
 export class TodoComponent implements OnInit {
+  todoDataService: TodoDataService;
   // TODO todo.component v dialogu ???
   id: number;
   username: string;
@@ -25,9 +26,11 @@ export class TodoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private todoDataService: TodoDataService,
-    private router: Router
-  ) {}
+    private router: Router,
+    injector: Injector
+  ) {
+    this.todoDataService = injector.get(TodoDataService);
+  }
 
   ngOnInit() {
     this.fg = this.fb.group({
