@@ -1,10 +1,10 @@
-package com.mike.AngularandSpringFullStack.helloworld;
+package com.mike.AngularandSpringFullStack.basic.auth;
 
-public class HelloWorldBean {
+public class AuthenticationBean {
 	
 	private String message;
 
-	public HelloWorldBean(String message) {
+	public AuthenticationBean(String message) {
 		this.message = message;
 	}
 	
@@ -19,6 +19,6 @@ public class HelloWorldBean {
 
 	@Override
 	public String toString() {
-		return "HelloWorldBean [message=" + message + "]";
+		return "AuthenticationBean [message=" + message + "]";
 	}
 }
