@@ -5,16 +5,16 @@ import {
   RouterStateSnapshot,
   Router,
 } from '@angular/router';
-import { HardcodedAuthenticationService } from './hardcoded-authentication.service';
+import { BasicAuthenticationService } from './basic-authentication.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RouteGuardService implements CanActivate {
-  hardcodedAuthService: HardcodedAuthenticationService;
+  basicAuthenticationService: BasicAuthenticationService;
 
   constructor(injector: Injector, private router: Router) {
-    this.hardcodedAuthService = injector.get(HardcodedAuthenticationService);
+    this.basicAuthenticationService = injector.get(BasicAuthenticationService);
   }
 
   canActivate(
@@ -22,7 +22,7 @@ export class RouteGuardService implements CanActivate {
     state: RouterStateSnapshot
   ): boolean {
     // jestli je user logged in, pak true -> can activate route
-    if (this.hardcodedAuthService.isUserLoggedIn()) {
+    if (this.basicAuthenticationService.isUserLoggedIn()) {
       return true;
     }
     // jestli neni user logged in, pak false -> can not activate route -> routuje na login page
