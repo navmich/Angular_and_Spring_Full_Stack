@@ -3,6 +3,7 @@ import { TodoDataService } from '../service/data/todo-data.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { FormArray, FormBuilder } from '@angular/forms';
+import { AUTHENTICATED_USER } from '../service/basic-authentication.service';
 
 export class Todo {
   constructor(
@@ -44,7 +45,7 @@ export class ListTodosComponent implements OnInit {
 
   ngOnInit() {
     this.todos = this.fb.array([]);
-    this.name = sessionStorage.getItem('authenticatedUser');
+    this.name = sessionStorage.getItem(AUTHENTICATED_USER);
     this.refreshTodos();
   }
 
@@ -56,12 +57,10 @@ export class ListTodosComponent implements OnInit {
           this.messageAllDone = '';
         }, 5000);
       }
-      // TODO jde odstranit vyprazdneni todos ??? treba patchValue ?
       this.todos = this.fb.array([]);
       for (let todo of response) {
         this.todos.push(this.fb.control(todo));
       }
-      // this.todos = response;
     });
   }
 

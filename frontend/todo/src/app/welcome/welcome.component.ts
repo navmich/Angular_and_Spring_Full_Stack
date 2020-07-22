@@ -25,12 +25,13 @@ export class WelcomeComponent implements OnInit {
     this.name = this.route.snapshot.params['name'];
   }
 
-  getWelcomeMessage() {
-    this.welcomeDataService.executeHelloWorlBeanService().subscribe(
-      (response) => this.handleSuccesfulResponse(response),
-      (error) => this.handleErrorResponse(error)
-    );
-  }
+  // NOT USED
+  // getWelcomeMessage() {
+  //   this.welcomeDataService.executeHelloWorlBeanService().subscribe(
+  //     (response) => this.handleSuccesfulResponse(response),
+  //     (error) => this.handleErrorResponse(error)
+  //   );
+  // }
 
   getWelcomeMessageWithName() {
     this.welcomeDataService

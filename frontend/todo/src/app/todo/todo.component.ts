@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TodoDataService } from '../service/data/todo-data.service';
 import { formatDate } from '@angular/common';
 import { Todo } from '../list-todos/list-todos.component';
+import { AUTHENTICATED_USER } from '../service/basic-authentication.service';
 
 @Component({
   selector: 'app-todo',
@@ -19,7 +20,7 @@ export class TodoComponent implements OnInit {
   fg: FormGroup;
   showMessage: Boolean;
 
-  // TODO dodelat do Transloco
+  // TODO do Transloco
   warningMessage_invalidDescription = 'Enter description';
   warningMessage_invalidTargetDate = 'Enter valid date';
 
@@ -49,7 +50,7 @@ export class TodoComponent implements OnInit {
 
     this.id = this.route.snapshot.params['id'];
     this.todo = new Todo(this.id, '', false, new Date());
-    this.username = sessionStorage.getItem('authenticatedUser');
+    this.username = sessionStorage.getItem(AUTHENTICATED_USER);
     if (this.id != -1) {
       this.retrieveTodoById();
     }
