@@ -76,20 +76,16 @@ export class TodoComponent implements OnInit {
   saveTodo() {
     if (this.id == -1) {
       this._setTodo();
-      this.todoDataService
-        .createTodo(this.username, this.todo)
-        .subscribe((response) => {
-          // tady nemusi byt nic, response nema BODY
-        });
+      this.todoDataService.createTodo(this.username, this.todo).subscribe();
       this.router.navigate(['/todos']);
+    } else if (!this.fg.dirty) {
+      this.onCancel();
     } else {
       this.todoDataService
         .updateTodoById(this.username, this.id, this.fg.value)
-        .subscribe((response) => {
-          this.todo = response;
-          this._setFormGroup(this.todo);
+        .subscribe(() => {
+          this.router.navigate(['/todos']);
         });
-      this.router.navigate(['/todos']);
     }
   }
 

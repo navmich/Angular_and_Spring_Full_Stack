@@ -27,8 +27,7 @@ public class TodoHardcodedService {
             todo.setId(++idCounter);
             todos.add(todo);
         } else {
-            deleteById(todo.getUsername(), todo.getId());
-            todos.add(todo);
+            todos.set(todos.indexOf(todo), todo);
         }
         return todo;
     }

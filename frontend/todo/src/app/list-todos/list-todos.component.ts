@@ -23,7 +23,7 @@ export class ListTodosComponent implements OnInit {
   // todos: Todo[];
   todos: FormArray = new FormArray([]);
   name: string;
-  todoService: TodoDataService;
+  todoDataService: TodoDataService;
   messageDeleted: string;
   messageAllDone: string;
 
@@ -40,7 +40,7 @@ export class ListTodosComponent implements OnInit {
     private fb: FormBuilder,
     injector: Injector
   ) {
-    this.todoService = injector.get(TodoDataService);
+    this.todoDataService = injector.get(TodoDataService);
   }
 
   ngOnInit() {
@@ -50,7 +50,7 @@ export class ListTodosComponent implements OnInit {
   }
 
   refreshTodos() {
-    this.todoService.retrieveAllTodos(this.name).subscribe((response) => {
+    this.todoDataService.retrieveAllTodos(this.name).subscribe((response) => {
       if (!response.length) {
         this.messageAllDone = 'You have just finished all Your tasks...';
         setTimeout(() => {
@@ -65,7 +65,7 @@ export class ListTodosComponent implements OnInit {
   }
 
   deleteTodo(id: number) {
-    this.todoService.deleteTodoById(this.name, id).subscribe(() => {
+    this.todoDataService.deleteTodoById(this.name, id).subscribe(() => {
       this.messageDeleted = `Delete of Todo ${id} Was Successful!`;
       setTimeout(() => {
         this.messageDeleted = '';

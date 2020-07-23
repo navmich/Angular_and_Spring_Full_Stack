@@ -7,38 +7,36 @@
   {{ messageAllDone }}
 </div>
 
-<form [formGroup]="todos">
-  <div class="container">
-    <table class="table" *ngIf="todos.length">
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Target Date</th>
-          <th>is Completed</th>
-          <th>Update</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let todo of todos.value">
-          <td>{{ todo.description }}</td>
-          <td>{{ todo.targetDate | date }}</td>
-          <td>{{ todo.done }}</td>
-          <td>
-            <button class="btn btn-success" (click)="updateTodo(todo.id)">
-              Update
-            </button>
-          </td>
-          <td>
-            <button class="btn btn-warning" (click)="deleteTodo(todo.id)">
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="row">
-      <button class="btn btn-success" (click)="addTodo()">Add</button>
-    </div>
+<div class="container">
+  <table class="table" *ngIf="todos.length">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Target Date</th>
+        <th>is Completed</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let todo of todos.value">
+        <td>{{ todo.description }}</td>
+        <td>{{ todo.targetDate | date }}</td>
+        <td>{{ todo.done }}</td>
+        <td>
+          <button class="btn btn-success" (click)="updateTodo(todo.id)">
+            Update
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-warning" (click)="deleteTodo(todo.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <button class="btn btn-success" (click)="addTodo()">Add</button>
   </div>
-</form>
+</div>
