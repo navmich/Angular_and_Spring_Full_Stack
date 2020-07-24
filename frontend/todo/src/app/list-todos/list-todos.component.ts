@@ -1,18 +1,10 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { TodoDataService } from '../service/data/todo-data.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { FormArray, FormBuilder } from '@angular/forms';
 import { AUTHENTICATED_USER } from '../service/basic-authentication.service';
-
-export class Todo {
-  constructor(
-    public id: number,
-    public description: string,
-    public done: boolean,
-    public targetDate: Date
-  ) {}
-}
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { TodoDialogComponent } from '../todo/dialog/todo-dialog/todo-dialog.component';
 
 @Component({
   selector: 'app-list-todos',
@@ -26,6 +18,7 @@ export class ListTodosComponent implements OnInit {
   todoDataService: TodoDataService;
   messageDeleted: string;
   messageAllDone: string;
+  matDialog: MatDialog;
 
   displayedColumns: string[] = [
     'description',
@@ -41,6 +34,10 @@ export class ListTodosComponent implements OnInit {
     injector: Injector
   ) {
     this.todoDataService = injector.get(TodoDataService);
+    this.matDialog = injector.get(MatDialog);
+    // this.matDialog.afterAllClosed.subscribe(() => {
+    //   this.refreshTodos();
+    // });
   }
 
   ngOnInit() {
@@ -80,5 +77,24 @@ export class ListTodosComponent implements OnInit {
 
   addTodo() {
     this.router.navigate(['todos', -1]);
+  }
+
+  addTodoDialog() {
+    this.openDialog(-1);
+  }
+
+  openDialog(todoId: number) {
+    const dialogConfig = new MatDialogConfig();
+    // nemuze zavrit dialog kliknutim mimo dialog
+    dialogConfig.disableClose = true;
+    dialogConfig.data = todoId;
+    dialogConfig.minWidth = '40%';
+    // dialogConfig.height = '500 px';
+    // dialogConfig.width = '500 px';
+
+    this.matDialog
+      .open(TodoDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(() => this.refreshTodos());
   }
 }

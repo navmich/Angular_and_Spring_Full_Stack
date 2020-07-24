@@ -29,6 +29,11 @@
           </button>
         </td>
         <td>
+          <button class="btn btn-success" (click)="openDialog(todo.id)">
+            Update (dialog)
+          </button>
+        </td>
+        <td>
           <button class="btn btn-warning" (click)="deleteTodo(todo.id)">
             Delete
           </button>
@@ -38,5 +43,8 @@
   </table>
   <div class="row">
     <button class="btn btn-success" (click)="addTodo()">Add</button>
+    <button class="btn btn-success" (click)="addTodoDialog()">
+      Add (dialog)
+    </button>
   </div>
 </div>

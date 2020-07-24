@@ -16,6 +16,12 @@ import { LogoutComponent } from './logout/logout.component';
 import { TodoComponent } from './todo/todo.component';
 import { HttpInterceptorBasicAuthService } from './service/http/http-interceptor-basic-auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TodoDialogComponent } from './todo/dialog/todo-dialog/todo-dialog.component';
+import {
+  MatFormFieldModule,
+  MatDialogModule,
+  MAT_DIALOG_DEFAULT_OPTIONS,
+} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -29,6 +35,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FooterComponent,
     LogoutComponent,
     TodoComponent,
+    TodoDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +44,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    MatDialogModule,
+    MatFormFieldModule,
   ],
   providers: [
     {
@@ -46,5 +55,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     },
   ],
   bootstrap: [AppComponent],
+  entryComponents: [TodoDialogComponent],
 })
 export class AppModule {}

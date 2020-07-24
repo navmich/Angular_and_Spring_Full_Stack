@@ -1,34 +1,40 @@
-import { Component, OnInit, Injector } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TodoDataService } from '../service/data/todo-data.service';
+import { Component, OnInit, Injector, Inject } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { TodoDataService } from 'src/app/service/data/todo-data.service';
+import { AUTHENTICATED_USER } from 'src/app/service/basic-authentication.service';
 import { formatDate } from '@angular/common';
-import { Todo } from '../clases/Todo';
-import { AUTHENTICATED_USER } from '../service/basic-authentication.service';
+import { Todo } from '../../../clases/Todo';
+// export class Todo {
+//   constructor(
+//     public id: number,
+//     public description: string,
+//     public done: boolean,
+//     public targetDate: Date
+//   ) {}
+// }
 
 @Component({
-  selector: 'app-todo',
-  templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.css'],
+  selector: 'app-todo-dialog',
+  templateUrl: './todo-dialog.component.html',
+  styleUrls: ['./todo-dialog.component.css'],
 })
-export class TodoComponent implements OnInit {
-  todoDataService: TodoDataService;
-  // TODO todo.component v dialogu ???
-  id: number;
-  username: string;
-  todo: Todo;
+export class TodoDialogComponent implements OnInit {
   fg: FormGroup;
+  todoDataService: TodoDataService;
+  username: string;
+  id: number;
   showMessage: boolean;
+  todo: Todo;
 
-  // TODO do Transloco
   warningMessage_invalidDescription = 'Enter description';
   warningMessage_invalidTargetDate = 'Enter valid date';
 
   constructor(
-    private route: ActivatedRoute,
+    injector: Injector,
     private fb: FormBuilder,
-    private router: Router,
-    injector: Injector
+    public readonly dialogRef: MatDialogRef<TodoDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: number
   ) {
     this.todoDataService = injector.get(TodoDataService);
   }
@@ -48,12 +54,28 @@ export class TodoComponent implements OnInit {
         : (this.showMessage = true);
     });
 
-    this.id = this.route.snapshot.params['id'];
+    this.id = this.data;
     this.todo = new Todo(this.id, '', false, new Date());
     this.username = sessionStorage.getItem(AUTHENTICATED_USER);
     if (this.id != -1) {
       this.retrieveTodoById();
     }
+  }
+
+  onSubmit() {
+    if (!this.isFormInvalid()) {
+      this.saveTodo();
+    } else {
+      this.showMessage = true;
+    }
+  }
+
+  onCancel() {
+    this.dialogRef.close();
+  }
+
+  isFormInvalid() {
+    return this.fg.invalid;
   }
 
   retrieveTodoById() {
@@ -65,21 +87,13 @@ export class TodoComponent implements OnInit {
       });
   }
 
-  onSubmit() {
-    if (!this.isFormInvalid()) {
-      this.saveTodo();
-    } else {
-      this.showMessage = true;
-    }
-  }
-
   saveTodo() {
     if (this.id == -1) {
       this._setTodo();
       this.todoDataService
         .createTodo(this.username, this.todo)
         .subscribe(() => {
-          this.router.navigate(['/todos']);
+          this.dialogRef.close();
         });
     } else if (!this.fg.dirty) {
       this.onCancel();
@@ -87,17 +101,9 @@ export class TodoComponent implements OnInit {
       this.todoDataService
         .updateTodoById(this.username, this.id, this.fg.value)
         .subscribe(() => {
-          this.router.navigate(['/todos']);
+          this.dialogRef.close();
         });
     }
-  }
-
-  onCancel() {
-    this.router.navigate(['/todos']);
-  }
-
-  isFormInvalid() {
-    return this.fg.invalid;
   }
 
   pickUpWarningMessage() {
