@@ -20,13 +20,13 @@ export class ListTodosComponent implements OnInit {
   messageAllDone: string;
   matDialog: MatDialog;
 
-  displayedColumns: string[] = [
-    'description',
-    'targetDate',
-    'isCompleted',
-    'update',
-    'delete',
-  ];
+  // displayedColumns: string[] = [
+  //   'description',
+  //   'targetDate',
+  //   'isCompleted',
+  //   'update',
+  //   'delete',
+  // ];
 
   constructor(
     private router: Router,
@@ -58,9 +58,9 @@ export class ListTodosComponent implements OnInit {
     });
   }
 
-  deleteTodo(id: number) {
+  deleteTodo(id: number, title: string) {
     this.todoDataService.deleteTodoById(this.name, id).subscribe(() => {
-      this.messageDeleted = `Delete of Todo ${id} Was Successful!`;
+      this.messageDeleted = `Todo: "${title}" was deleted!`;
       setTimeout(() => {
         this.messageDeleted = '';
       }, 2000);

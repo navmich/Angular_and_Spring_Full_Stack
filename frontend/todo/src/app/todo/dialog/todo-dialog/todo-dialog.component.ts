@@ -5,14 +5,7 @@ import { TodoDataService } from 'src/app/service/data/todo-data.service';
 import { AUTHENTICATED_USER } from 'src/app/service/basic-authentication.service';
 import { formatDate } from '@angular/common';
 import { Todo } from '../../../clases/Todo';
-// export class Todo {
-//   constructor(
-//     public id: number,
-//     public description: string,
-//     public done: boolean,
-//     public targetDate: Date
-//   ) {}
-// }
+import { validateTargetDate } from 'src/app/utils/validator.utils';
 
 @Component({
   selector: 'app-todo-dialog',
@@ -21,14 +14,14 @@ import { Todo } from '../../../clases/Todo';
 })
 export class TodoDialogComponent implements OnInit {
   fg: FormGroup;
-  todoDataService: TodoDataService;
-  username: string;
   id: number;
-  showMessage: boolean;
+  username: string;
   todo: Todo;
+  todoDataService: TodoDataService;
 
-  warningMessage_invalidDescription = 'Enter description';
-  warningMessage_invalidTargetDate = 'Enter valid date';
+  TODAYS_DATE = formatDate(Date.now(), 'yyyy-MM-dd', 'en-US');
+  INVALID_TITLE = 'Title is required';
+  INVALID_TARGET_DATE = 'Enter date in valid format';
 
   constructor(
     injector: Injector,
@@ -44,9 +37,6 @@ export class TodoDialogComponent implements OnInit {
       if (event.key === 'Escape') {
         this.onCancel();
       }
-      if (event.key === 'CTRL + s') {
-        this.onSubmit();
-      }
     });
 
     this.fg = this.fb.group({
@@ -54,15 +44,11 @@ export class TodoDialogComponent implements OnInit {
       username: [''],
       title: ['', Validators.required],
       description: [''],
-      targetDate: ['', Validators.required],
+      targetDate: ['', [Validators.required, validateTargetDate()]],
       done: [''],
     });
-
-    this.fg.valueChanges.subscribe((data) => {
-      data.description && data.targetDate
-        ? (this.showMessage = false)
-        : (this.showMessage = true);
-    });
+    // TODO list do async
+    this.fg.valueChanges.subscribe(() => {});
 
     this.id = this.data;
     this.todo = new Todo(this.id, '', '', false, new Date());
@@ -75,8 +61,6 @@ export class TodoDialogComponent implements OnInit {
   onSubmit() {
     if (!this.isFormInvalid()) {
       this.saveTodo();
-    } else {
-      this.showMessage = true;
     }
   }
 
@@ -117,10 +101,17 @@ export class TodoDialogComponent implements OnInit {
   }
 
   pickUpWarningMessage() {
-    if (this.fg.controls.description.invalid) {
-      return this.warningMessage_invalidDescription;
+    if (this.fg.controls.title.invalid) {
+      return this.INVALID_TITLE;
+    } else if (
+      this.fg.controls.targetDate.invalid &&
+      this.fg.controls.targetDate.hasError('error.targetDate.isBeforeNow')
+    ) {
+      return this.fg.controls.targetDate.getError(
+        'error.targetDate.isBeforeNow'
+      ).text;
     } else if (this.fg.controls.targetDate.invalid) {
-      return this.warningMessage_invalidTargetDate;
+      return this.INVALID_TARGET_DATE;
     } else {
       return null;
     }

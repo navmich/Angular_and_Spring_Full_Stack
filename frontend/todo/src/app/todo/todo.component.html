@@ -25,6 +25,7 @@
       <input
         class="form-control"
         type="date"
+        min="{{ TODAYS_DATE }}"
         name="targetDate"
         formControlName="targetDate"
       />
@@ -40,7 +41,7 @@
 </div>
 
 <ng-template #warningMessages>
-  <div class="alert alert-warning" *ngIf="showMessage">
+  <div class="alert alert-warning" *ngIf="isFormInvalid()">
     {{ pickUpWarningMessage() }}
   </div>
 </ng-template>

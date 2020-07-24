@@ -13,8 +13,9 @@
       <tr>
         <th>Title</th>
         <th>Target Date</th>
-        <th>is Completed</th>
-        <th>Update</th>
+        <!-- <th>is Completed</th> -->
+        <th>Detail</th>
+        <th>Detail (dialog)</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -22,19 +23,22 @@
       <tr *ngFor="let todo of todos.value">
         <td>{{ todo.title }}</td>
         <td>{{ todo.targetDate | date }}</td>
-        <td>{{ todo.done }}</td>
+        <!-- <td>{{ todo.done }}</td> -->
         <td>
           <button class="btn btn-success" (click)="updateTodo(todo.id)">
-            Update
+            Detail (page)
           </button>
         </td>
         <td>
           <button class="btn btn-success" (click)="openDialog(todo.id)">
-            Update (dialog)
+            Detail (dialog)
           </button>
         </td>
         <td>
-          <button class="btn btn-warning" (click)="deleteTodo(todo.id)">
+          <button
+            class="btn btn-warning"
+            (click)="deleteTodo(todo.id, todo.title)"
+          >
             Delete
           </button>
         </td>

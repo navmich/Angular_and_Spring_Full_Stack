@@ -5,6 +5,7 @@ import { TodoDataService } from '../service/data/todo-data.service';
 import { formatDate } from '@angular/common';
 import { Todo } from '../clases/Todo';
 import { AUTHENTICATED_USER } from '../service/basic-authentication.service';
+import { validateTargetDate } from '../utils/validator.utils';
 
 @Component({
   selector: 'app-todo',
@@ -18,11 +19,11 @@ export class TodoComponent implements OnInit {
   username: string;
   todo: Todo;
   fg: FormGroup;
-  showMessage: boolean;
 
+  TODAYS_DATE = formatDate(Date.now(), 'yyyy-MM-dd', 'en-US');
   // TODO do Transloco
-  warningMessage_invalidDescription = 'Enter description';
-  warningMessage_invalidTargetDate = 'Enter valid date';
+  INVALID_TITLE = 'Title is required';
+  INVALID_TARGET_DATE = 'Enter date in valid format';
 
   constructor(
     private route: ActivatedRoute,
@@ -39,15 +40,11 @@ export class TodoComponent implements OnInit {
       username: [''],
       title: ['', Validators.required],
       description: [''],
-      targetDate: ['', Validators.required],
+      targetDate: ['', [Validators.required, validateTargetDate()]],
       done: [''],
     });
 
-    this.fg.valueChanges.subscribe((data) => {
-      data.description && data.targetDate
-        ? (this.showMessage = false)
-        : (this.showMessage = true);
-    });
+    this.fg.valueChanges.subscribe(() => {});
 
     this.id = this.route.snapshot.params['id'];
     this.todo = new Todo(this.id, '', '', false, new Date());
@@ -69,8 +66,6 @@ export class TodoComponent implements OnInit {
   onSubmit() {
     if (!this.isFormInvalid()) {
       this.saveTodo();
-    } else {
-      this.showMessage = true;
     }
   }
 
@@ -102,10 +97,17 @@ export class TodoComponent implements OnInit {
   }
 
   pickUpWarningMessage() {
-    if (this.fg.controls.description.invalid) {
-      return this.warningMessage_invalidDescription;
+    if (this.fg.controls.title.invalid) {
+      return this.INVALID_TITLE;
+    } else if (
+      this.fg.controls.targetDate.invalid &&
+      this.fg.controls.targetDate.hasError('error.targetDate.isBeforeNow')
+    ) {
+      return this.fg.controls.targetDate.getError(
+        'error.targetDate.isBeforeNow'
+      ).text;
     } else if (this.fg.controls.targetDate.invalid) {
-      return this.warningMessage_invalidTargetDate;
+      return this.INVALID_TARGET_DATE;
     } else {
       return null;
     }
