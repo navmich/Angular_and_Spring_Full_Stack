@@ -11,7 +11,7 @@
   <table class="table" *ngIf="todos.length">
     <thead>
       <tr>
-        <th>Description</th>
+        <th>Title</th>
         <th>Target Date</th>
         <th>is Completed</th>
         <th>Update</th>
@@ -20,7 +20,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let todo of todos.value">
-        <td>{{ todo.description }}</td>
+        <td>{{ todo.title }}</td>
         <td>{{ todo.targetDate | date }}</td>
         <td>{{ todo.done }}</td>
         <td>

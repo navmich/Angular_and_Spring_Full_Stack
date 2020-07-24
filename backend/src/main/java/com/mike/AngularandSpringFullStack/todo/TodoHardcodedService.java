@@ -13,9 +13,9 @@ public class TodoHardcodedService {
     private static int idCounter = 0;
 // TODO sort todos podle data ???
     static {
-        todos.add(new Todo(++idCounter, "Mike", "Learn to Dance", new Date(), false));
-        todos.add(new Todo(++idCounter, "Mike", "Learn about Microservices", new Date(), false));
-        todos.add(new Todo(++idCounter, "Mike", "Learn about Angular", new Date(), false));
+        todos.add(new Todo(++idCounter, "Mike", "Learn to Dance", "I have to learn Polka dance", new Date(), false));
+        todos.add(new Todo(++idCounter, "Mike", "Learn about Microservices", "All about Microservices", new Date(), false));
+        todos.add(new Todo(++idCounter, "Mike", "Learn about Angular", "Moduls, Observables, Pipes.", new Date(), false));
     }
 
     public List<Todo> findAll() {

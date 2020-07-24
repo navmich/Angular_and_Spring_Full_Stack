@@ -3,13 +3,22 @@
 
   <form [formGroup]="fg" (ngSubmit)="onSubmit()">
     <fieldset class="form-group">
-      <label>Description</label>
+      <label>Title</label>
       <input
+        class="form-control"
+        type="text"
+        name="title"
+        formControlName="title"
+      />
+    </fieldset>
+    <fieldset class="form-group">
+      <label>Description</label>
+      <textarea
         class="form-control"
         type="text"
         name="description"
         formControlName="description"
-      />
+      ></textarea>
     </fieldset>
     <fieldset class="form-group">
       <label>Target Date</label>

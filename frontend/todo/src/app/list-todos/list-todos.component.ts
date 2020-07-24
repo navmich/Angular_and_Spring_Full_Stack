@@ -35,9 +35,6 @@ export class ListTodosComponent implements OnInit {
   ) {
     this.todoDataService = injector.get(TodoDataService);
     this.matDialog = injector.get(MatDialog);
-    // this.matDialog.afterAllClosed.subscribe(() => {
-    //   this.refreshTodos();
-    // });
   }
 
   ngOnInit() {
@@ -89,8 +86,6 @@ export class ListTodosComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.data = todoId;
     dialogConfig.minWidth = '40%';
-    // dialogConfig.height = '500 px';
-    // dialogConfig.width = '500 px';
 
     this.matDialog
       .open(TodoDialogComponent, dialogConfig)

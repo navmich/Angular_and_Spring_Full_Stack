@@ -43,7 +43,8 @@ export class TodoDialogComponent implements OnInit {
     this.fg = this.fb.group({
       id: [''],
       username: [''],
-      description: ['', Validators.required],
+      title: ['', Validators.required],
+      description: [''],
       targetDate: ['', Validators.required],
       done: [''],
     });
@@ -55,7 +56,7 @@ export class TodoDialogComponent implements OnInit {
     });
 
     this.id = this.data;
-    this.todo = new Todo(this.id, '', false, new Date());
+    this.todo = new Todo(this.id, '', '', false, new Date());
     this.username = sessionStorage.getItem(AUTHENTICATED_USER);
     if (this.id != -1) {
       this.retrieveTodoById();
@@ -119,6 +120,7 @@ export class TodoDialogComponent implements OnInit {
   private _setFormGroup(todo: Todo) {
     this.fg.get('id').setValue(todo.id);
     this.fg.get('username').setValue(this.username);
+    this.fg.get('title').setValue(todo.title);
     this.fg.get('description').setValue(todo.description);
     this.fg
       .get('targetDate')
@@ -127,6 +129,7 @@ export class TodoDialogComponent implements OnInit {
   }
 
   private _setTodo() {
+    this.todo.title = this.fg.get('title').value;
     this.todo.description = this.fg.get('description').value;
     this.todo.targetDate = this.fg.get('targetDate').value;
     this.todo.done = false;

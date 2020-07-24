@@ -6,6 +6,7 @@ import java.util.Objects;
 public class Todo {
     private long id;
     private String username;
+    private String title;
     private String description;
     private Date targetDate;
     private boolean isDone;
@@ -14,9 +15,10 @@ public class Todo {
 
     }
 
-    public Todo(long id, String username, String description, Date targetDate, boolean isDone) {
+    public Todo(long id, String username, String title, String description, Date targetDate, boolean isDone) {
         this.id = id;
         this.username = username;
+        this.title = title;
         this.description = description;
         this.targetDate = targetDate;
         this.isDone = isDone;
@@ -37,6 +39,10 @@ public class Todo {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getTitle() { return title; }
+
+    public void setTitle(String title) { this.title = title; }
 
     public String getDescription() {
         return description;
