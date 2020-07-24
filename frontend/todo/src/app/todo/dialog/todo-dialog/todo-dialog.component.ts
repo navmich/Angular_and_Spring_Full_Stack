@@ -40,6 +40,15 @@ export class TodoDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dialogRef.keydownEvents().subscribe((event) => {
+      if (event.key === 'Escape') {
+        this.onCancel();
+      }
+      if (event.key === 'CTRL + s') {
+        this.onSubmit();
+      }
+    });
+
     this.fg = this.fb.group({
       id: [''],
       username: [''],
