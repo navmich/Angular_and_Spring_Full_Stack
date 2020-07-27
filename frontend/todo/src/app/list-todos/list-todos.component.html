@@ -19,10 +19,13 @@
         <th>Delete</th>
       </tr>
     </thead>
+    <!-- style.background-color="{{ setRowBackgroundColor(todo.targetDate) }}" -->
     <tbody>
-      <tr *ngFor="let todo of todos.value">
+      <tr *ngFor="let todo of todos.value" [appHighlightRow]="todo.targetDate">
         <td>{{ todo.title }}</td>
-        <td>{{ todo.targetDate | date }}</td>
+        <td>
+          {{ todo.targetDate | date: 'd.M.yyyy' }}
+        </td>
         <!-- <td>{{ todo.done }}</td> -->
         <td>
           <button class="btn btn-success" (click)="updateTodo(todo.id)">
