@@ -17,11 +17,8 @@ import { TodoComponent } from './todo/todo.component';
 import { HttpInterceptorBasicAuthService } from './service/http/http-interceptor-basic-auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TodoDialogComponent } from './todo/dialog/todo-dialog/todo-dialog.component';
-import {
-  MatFormFieldModule,
-  MatDialogModule,
-  MAT_DIALOG_DEFAULT_OPTIONS,
-} from '@angular/material';
+import { MatFormFieldModule, MatDialogModule } from '@angular/material';
+import { HighlightRowDirective } from './directive/highlight-row.directive';
 
 @NgModule({
   declarations: [
@@ -36,6 +33,7 @@ import {
     LogoutComponent,
     TodoComponent,
     TodoDialogComponent,
+    HighlightRowDirective,
   ],
   imports: [
     BrowserModule,
