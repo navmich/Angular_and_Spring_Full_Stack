@@ -1,4 +1,4 @@
-package com.mike.AngularandSpringFullStack.basic.auth;
+package bacisAuthentication.auth;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
