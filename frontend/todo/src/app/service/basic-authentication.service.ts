@@ -14,6 +14,21 @@ export const AUTHENTICATED_USER = 'authenticatedUser';
 export class BasicAuthenticationService {
   constructor(injector: Injector, private http: HttpClient) {}
 
+  executeJWTAuthenticationService(
+    username,
+    password
+  ): Observable<AuthenticationBean> {
+    return this.http
+      .post<any>(`${API_URL}/authenticate`, { username, password })
+      .pipe(
+        map((data) => {
+          sessionStorage.setItem(AUTHENTICATED_USER, username);
+          sessionStorage.setItem(TOKEN, `Bearer ${data.token}`);
+          return data;
+        })
+      );
+  }
+
   executeAuthenticationService(
     username,
     password

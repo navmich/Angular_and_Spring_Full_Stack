@@ -46,4 +46,22 @@ export class LoginComponent implements OnInit {
         }
       );
   }
+
+  handleJWTAuthLogin() {
+    this.basicAuthenticationService
+      .executeJWTAuthenticationService(
+        this.fg.get('username').value,
+        this.fg.get('password').value
+      )
+      .subscribe(
+        () => {
+          this.isValid = true;
+          this.router.navigate(['welcome', this.fg.get('username').value]);
+        },
+        (error) => {
+          console.log('Message from backend (error): ' + error);
+          this.isValid = false;
+        }
+      );
+  }
 }

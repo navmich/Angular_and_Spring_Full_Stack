@@ -7,6 +7,12 @@ import {
 } from '@angular/core';
 import * as moment from 'moment';
 
+/**
+ * Meni barvu pozadi elementu v zavislosti na datu.
+ * Meni tloustku pisma pri najeti mysi.
+ * @param
+ * @author Michal Navratil
+ */
 @Directive({
   selector: '[appHighlightRow]',
 })
